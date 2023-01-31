@@ -1,6 +1,6 @@
 const hre = require("hardhat");
 const { expect } = require("chai");
-describe("Safe_Remote_Purchase", function () {
+describe("PurchaseAgreement", function () {
     let seller, buyer, deployContract, buy_amount, contract_Balance
     it("Contract Deployement", async function () {
         [seller, buyer] = await ethers.getSigners();

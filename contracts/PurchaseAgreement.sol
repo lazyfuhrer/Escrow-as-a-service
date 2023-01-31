@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 contract PurchaseAgreement{
+
      address payable public seller;
      address payable public buyer;
      uint public value;
@@ -10,8 +11,8 @@ contract PurchaseAgreement{
         seller=payable(msg.sender);
         value=msg.value/2;
         state=State.Created;
-
      }
+
      ///Not Suffient Amount. Pay 2X times
      error LessAmount();
 
@@ -25,23 +26,16 @@ contract PurchaseAgreement{
 
 
      modifier inState(State _state){
-        if(state!=_state){
-            revert invalidState();
-        }
+        if(state!=_state) { revert invalidState(); }
         _;
      }
 
      modifier OnlyBuyer(){
-        if (msg.sender!=buyer){
-            revert onlyBuyer();
-        }
+        if (msg.sender!=buyer) { revert onlyBuyer(); }
         _;
      }
      modifier OnlySeller(){
-        if(msg.sender!=seller){
-            revert onlyseller();
-
-        }
+        if(msg.sender!=seller) { revert onlyseller(); }
         _;
      }
 
