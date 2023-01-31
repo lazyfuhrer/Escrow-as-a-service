@@ -1,6 +1,6 @@
 # Decentralized Escrow service between stakeholders
 
-##Tech Stacks:
+## Tech Stacks:
 Language: Solidity, Javascript
 Development Environment: Hardhat
 Testing Framework: Mocha, Chai
