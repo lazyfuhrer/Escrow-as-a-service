@@ -1,62 +1,74 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
+contract PurchaseAgreement{
+     address payable public seller;
+     address payable public buyer;
+     uint public value;
+     enum State{Created,Locked,Release,Inactive}
+     State public  state;
+     constructor() payable{
+        seller=payable(msg.sender);
+        value=msg.value/2;
+        state=State.Created;
 
-// Uncomment this line to use console.log
-// import "hardhat/console.sol";
+     }
+     ///Not Suffient Amount. Pay 2X times
+     error LessAmount();
 
-contract PurchaseAgreement {
-    uint public value;
-    address payable public seller;
-    address payable public buyer;
+     ///not a valid state
+     error invalidState( );
 
-    enum State { Created, Locked, Release, Inactive }
-    State public state;
+     ///only Buyer can call this function
+     error onlyBuyer( );
+    ///only Seller can call this function
+     error onlyseller();
 
-    constructor() payable {
-        seller = payable(msg.sender);
-        value = msg.value / 2;
-    }
 
-    /// Can not be called at the moment.
-    error InvalidState();
-    /// Can only be called by the buyer.
-    error OnlyBuyer();
-    /// Can only be called by the seller.
-    error OnlySeller();
-
-    modifier inState(State state_) {
-        if (state != state_) revert InvalidState();
+     modifier inState(State _state){
+        if(state!=_state){
+            revert invalidState();
+        }
         _;
-    }
+     }
 
-    modifier onlyBuyer() {
-        if (msg.sender != buyer) revert OnlyBuyer();
+     modifier OnlyBuyer(){
+        if (msg.sender!=buyer){
+            revert onlyBuyer();
+        }
         _;
-    }
+     }
+     modifier OnlySeller(){
+        if(msg.sender!=seller){
+            revert onlyseller();
 
-    modifier onlySeller() {
-        if (msg.sender != seller) revert OnlySeller();
+        }
         _;
-    }
+     }
 
-    function confirmPurchase() external inState(State.Created) payable {
-        require(msg.value == (2 * value), "Value has to be twice the amount");
-        buyer = payable(msg.sender);
-        state = State.Locked;
-    }
+     function ConfirmPurchase() external payable inState(State.Created) {
+        buyer=payable(msg.sender);
+        if(msg.value<value*2){
+            revert LessAmount();
+        }
+        state=State.Locked;
+     }
 
-    function confirmReceived() external onlyBuyer inState(State.Locked) {
-        state = State.Release;
+     function Contract_Balance() public view returns(uint)  {
+        return address(this).balance;
+     }
+   
+    function confirmRecieved() external  OnlyBuyer inState(State.Locked){
+        state=State.Release;
         buyer.transfer(value);
     }
 
-    function paySeller() external onlySeller inState(State.Release) {
-        state = State.Inactive;
-        seller.transfer(3 * value);
+    function paySeller() external OnlySeller inState(State.Release){
+        state=State.Inactive;
+        seller.transfer(Contract_Balance());
     }
 
-    function abort() external onlySeller inState(State.Created) {
-        state = State.Inactive;
-        seller.transfer(address(this).balance);
+    function abort() external OnlySeller inState(State.Created){
+        state=State.Inactive;
+        seller.transfer(Contract_Balance());
     }
 }
