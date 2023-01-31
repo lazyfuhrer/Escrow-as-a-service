@@ -1,11 +1,12 @@
 const hre = require("hardhat");
 const { expect } = require("chai");
 describe("PurchaseAgreement", function () {
-    let seller, buyer, deployContract, buy_amount, contract_Balance
+    let seller, buyer, deployContract, buy_amount, contract_Balance;
+    
     it("Contract Deployement", async function () {
         [seller, buyer] = await ethers.getSigners();
-        console.log("Seller Adress", seller.address)
-        console.log("Buyer Adress", buyer.address);
+        console.log("Seller Address", seller.address)
+        console.log("Buyer Address", buyer.address);
         const lockedAmount = hre.ethers.utils.parseEther("4");
         const mainContract = await ethers.getContractFactory("PurchaseAgreement");
         deployContract = await mainContract.deploy({ value: lockedAmount });
@@ -15,11 +16,10 @@ describe("PurchaseAgreement", function () {
 
         let seller_balance = await hre.ethers.provider.getBalance(seller.address);
 
-        console.log('seller balance :', seller_balance.toString());
+        console.log('Seller balance :', seller_balance.toString());
         contract_Balance = await hre.ethers.provider.getBalance(deployContract.address);
 
-        console.log('seller balance :', contract_Balance.toString());
-
+        console.log('Seller balance :', contract_Balance.toString());
     })
 
     it("Confirm_Purchase", async function () {
@@ -40,8 +40,6 @@ describe("PurchaseAgreement", function () {
         let buyer_balance = await hre.ethers.provider.getBalance(buyer.address);
 
         console.log('Buyer balance :', buyer_balance.toString());
-
-
     })
 
     it("Pay Seller", async function () {
@@ -49,36 +47,37 @@ describe("PurchaseAgreement", function () {
         await transaction_paySeller.wait();
         let seller_balance = await hre.ethers.provider.getBalance(seller.address);
 
-        console.log('seller balance :', seller_balance.toString());
+        console.log('Seller balance :', seller_balance.toString());
         contract_Balance = await hre.ethers.provider.getBalance(deployContract.address);
 
-        console.log('seller balance :', contract_Balance.toString());
-
+        console.log('Seller balance :', contract_Balance.toString());  
     })
+});
 
-    it("Abort Contract", async function () {
-        const transaction_abort = await deployContract.abort();
+describe("PurchaseAgreement", function () {
 
-        await transaction_abort.wait();
-    })
+  let seller, buyer, deployContract, buy_amount, contract_Balance;
+  it("Contract Deployement", async function () {
+      [seller, buyer] = await ethers.getSigners();
+      console.log("Seller Address", seller.address)
+      console.log("Buyer Address", buyer.address);
+      const lockedAmount = hre.ethers.utils.parseEther("4");
+      const mainContract = await ethers.getContractFactory("PurchaseAgreement");
+      deployContract = await mainContract.deploy({ value: lockedAmount });
+      buy_amount = hre.ethers.utils.parseEther("4");
+      await deployContract.deployed();
+      console.log("Contract Address", deployContract.address);
 
+      let seller_balance = await hre.ethers.provider.getBalance(seller.address);
 
-})
-//async function main() {
+      console.log('Seller balance :', seller_balance.toString());
+      contract_Balance = await hre.ethers.provider.getBalance(deployContract.address);
 
+      console.log('Seller balance :', contract_Balance.toString());
+  })
 
-
-
-//   
-
-
-
-
-//   
-//   
-//   const contractBalance = await deployContract.getBalanceof();
-//   console.log("contract Balance:", contractBalance.toString());
-
-// }
-
-// main();
+  it("Abort Contract", async function () {
+    const transaction_abort = await deployContract.abort();
+    await transaction_abort.wait();
+  })
+});

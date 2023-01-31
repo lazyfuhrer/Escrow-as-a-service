@@ -10,7 +10,7 @@ contract PurchaseAgreement{
      constructor() payable{
         seller=payable(msg.sender);
         value=msg.value/2;
-        state=State.Created;
+        //state=State.Created;
      }
 
      ///Not Suffient Amount. Pay 2X times
