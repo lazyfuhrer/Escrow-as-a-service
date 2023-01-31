@@ -1,6 +1,11 @@
-# Decentralized escrow service between stakeholders
+# Decentralized Escrow service between stakeholders
 
-Tech Stacks: Solidity, Hardhat, Mocha, Chai, Quicknode, Goerli testnet
+##Tech Stacks:
+Language: Solidity, Javascript
+Development Environment: Hardhat
+Testing Framework: Mocha, Chai
+Deployment: Quicknode
+Network: Polygon Mumbai
 
 This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
 
