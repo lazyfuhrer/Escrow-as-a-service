@@ -1,4 +1,4 @@
-# Decentralized Escrow service between stakeholders
+# Decentralized Escrow Service between Buyer and Merchant
 
 <pre>
 <img src="https://user-images.githubusercontent.com/64888892/215867408-20ee00e7-114c-45c9-868b-0cd829e7f9a3.png" width="1000"> 
