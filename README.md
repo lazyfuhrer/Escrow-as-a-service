@@ -4,7 +4,7 @@
 <img src="https://user-images.githubusercontent.com/64888892/215867408-20ee00e7-114c-45c9-868b-0cd829e7f9a3.png" width="1000"> 
 </pre>
 
-## 🚀 Tech Stack:
+## 🚀 Tech Stacks:
 ### 1) Language: Solidity, Javascript&nbsp;&nbsp;
 ### 2) Development Environment: Hardhat&nbsp;&nbsp;
 ### 3) Testing Framework: Mocha, Chai&nbsp;&nbsp;
